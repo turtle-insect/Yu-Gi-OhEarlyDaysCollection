@@ -1,0 +1,47 @@
+﻿<Window x:Class="dm2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dm2"
+        mc:Ignorable="d"
+		WindowStartupLocation="CenterScreen"
+        Title="遊戯王デュエルモンスターズII 闇界決闘記" Height="400" Width="600">
+	<Window.Resources>
+		<local:CardIDNameConverter x:Key="CardIDNameConverter"/>
+	</Window.Resources>
+	<Window.DataContext>
+		<local:ViewModel/>
+	</Window.DataContext>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="File">
+				<MenuItem Header="Open" Command="{Binding OpenFileCommand}"/>
+				<MenuItem Header="Save" Command="{Binding SaveFileCommand}"/>
+			</MenuItem>
+		</Menu>
+		<TabControl>
+			<TabItem Header="Deck">
+				<DockPanel>
+					<DockPanel DockPanel.Dock="Top">
+						<Label DockPanel.Dock="Left" Content="ALL Card"/>
+						<Button DockPanel.Dock="Right" Content="Change" Command="{Binding ChangeAllCardCommand}"/>
+						<ComboBox ItemsSource="{Binding Info.Card}" SelectedIndex="{Binding SelectCardIndex}" DisplayMemberPath="Name"/>
+					</DockPanel>
+					<ListBox ItemsSource="{Binding Deck}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Button Content="..." Width="50"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ChoiceCardCommand}"
+									CommandParameter="{Binding}"/>
+									<Label Content="{Binding ID, Converter={StaticResource CardIDNameConverter}}"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</DockPanel>
+			</TabItem>
+		</TabControl>
+	</DockPanel>
+</Window>
