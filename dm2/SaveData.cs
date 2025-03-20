@@ -25,6 +25,8 @@
 			int[] offsets = [0, 16];
 			foreach (var offset in offsets)
 			{
+				if (mBuffer.Length <= 0x17F6 + offset + 6) continue;
+
 				// KONAMI check.
 				string co = System.Text.Encoding.UTF8.GetString(mBuffer, 0x17F6 + offset, 6);
 				if(co == "KONAMI")
